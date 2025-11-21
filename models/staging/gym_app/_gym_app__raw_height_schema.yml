@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: gym_app
+    schema: dbt_testing_example
+    tables:
+      - name: raw_height
+        columns:
+          - name: height_unit
+          - name: user_id
+          - name: height

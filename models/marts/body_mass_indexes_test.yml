@@ -1,0 +1,12 @@
+#  https://docs.getdbt.com/reference/resource-properties/unit-tests
+
+unit_tests:
+  - name: calculate_body_mass_index # this is the unique name of the test
+    model: body_mass_indexes # name of the model I'm unit testing
+    given: # the mock data for your inputs
+      - input: ref('int_weight_measurements_with_latest_height')
+        rows:
+          - {created_date: '2022-09-01', user_id: 1, weight: 84.50, height: 190}
+    expect: # the expected output given the inputs above
+      rows:
+        - {created_date: '2022-09-01', user_id: 1, bmi: 23.4}

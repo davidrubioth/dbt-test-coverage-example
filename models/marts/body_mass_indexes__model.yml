@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: body_mass_indexes
+    config:
+      materialized: table
+    columns:
+      - name: user_id
+        data_type: int
+      - name: created_date
+        data_type: date
+      - name: weight
+        data_type: float
+      - name: height
+        data_type: float
+      - name: bmi
+        data_type: decimal

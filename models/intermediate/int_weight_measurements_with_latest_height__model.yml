@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: int_weight_measurements_with_latest_height
+    columns:
+      - name: user_id
+        data_type: int
+      - name: created_date
+        data_type: date
+      - name: weight
+        data_type: float
+      - name: height
+        data_type: float

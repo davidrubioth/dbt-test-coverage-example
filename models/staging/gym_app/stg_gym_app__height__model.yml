@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_gym_app__height
+    columns:
+      - name: user_id
+      - name: height
+      - name: measurement_unit
+      - name: created_date

@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "dbt-test-coverage"
+version = "1.0.0"
+description = "Example on how to generate test coverage reports for dbt projects using dbt unit tests as reference"
+authors = ["David"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dbt-postgres = "^1.8.1"
+setuptools = "^69.1.0"
+pyyaml = "^6.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

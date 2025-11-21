@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_gym_app__weight
+    columns:
+      - name: user_id
+      - name: weight
+      - name: measurement_unit
+      - name: created_date

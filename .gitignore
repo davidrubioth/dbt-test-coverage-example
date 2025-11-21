@@ -1,0 +1,10 @@
+
+# dbt
+target/
+dbt_packages/
+logs/
+dbt
+
+.env
+.user.yml
+profiles.yml

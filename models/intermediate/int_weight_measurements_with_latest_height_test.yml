@@ -1,0 +1,44 @@
+#  https://docs.getdbt.com/reference/resource-properties/unit-tests
+
+unit_tests:
+  - name: return_user_only_when_user_has_weight_and_height # this is the unique name of the test
+    model: int_weight_measurements_with_latest_height # name of the model I'm unit testing
+    given: # the mock data for your inputs
+      - input: ref('stg_gym_app__weight')
+        rows:
+          - {created_date: '2025-01-01', measurement_unit: 'kg', user_id: 1, weight: 70}
+          - {created_date: '2025-01-02', measurement_unit: 'kg', user_id: 2, weight: 80}
+      - input: ref('stg_gym_app__height')
+        rows:
+          - {created_date: '2025-01-01', measurement_unit: 'cm', user_id: 1, height: 170}
+          - {created_date: '2025-01-02', measurement_unit: 'cm', user_id: 3, height: 180}
+    expect: # the expected output given the inputs above
+      rows:
+        - {user_id: 1, weight: 70, height: 170}
+
+  - name: when_user_has_more_than_one_height_take_the_latest # this is the unique name of the test
+    model: int_weight_measurements_with_latest_height # name of the model I'm unit testing
+    given: # the mock data for your inputs
+      - input: ref('stg_gym_app__weight')
+        rows:
+          - {created_date: '2025-01-01', measurement_unit: 'kg', user_id: 1, weight: 70}
+      - input: ref('stg_gym_app__height')
+        rows:
+          - {created_date: '2025-01-01', measurement_unit: 'cm', user_id: 1, height: 170}
+          - {created_date: '2025-01-02', measurement_unit: 'cm', user_id: 1, height: 169} # latest height
+    expect: # the expected output given the inputs above
+      rows:
+        - {user_id: 1, weight: 70, height: 169}
+
+  - name: return_greatest_date_between_weight_and_height # this is the unique name of the test
+    model: int_weight_measurements_with_latest_height # name of the model I'm unit testing
+    given: # the mock data for your inputs
+      - input: ref('stg_gym_app__weight')
+        rows:
+          - {created_date: '2025-01-01', measurement_unit: 'kg', user_id: 1, weight: 70}
+      - input: ref('stg_gym_app__height')
+        rows:
+          - {created_date: '2025-01-02', measurement_unit: 'cm', user_id: 1, height: 169} 
+    expect: # the expected output given the inputs above
+      rows:
+        - {created_date: '2025-01-02', user_id: 1, weight: 70, height: 169}
