@@ -1,0 +1,52 @@
+As a data engineer I want to build a test coverage report for my dbt models.
+
+I want to focus my report in 4 dimensions:
+
+1. Columns 
+Testing Criteria: The column present in the model must be at least in one expected result in the unit test for the model
+
+2. Aggregations
+Functions like SUM, COUNT, AVG, MAX, MIN
+Window functions like ROW_NUMBER(), RANK(), LAG(), LEAD()
+Testing Criteria: Having multiple input records for the column used in the function to test aggregation logic
+
+3. Operations
+Mathematical operations: +, -, *, /
+Math functions: ROUND, FLOOR, CEIL, ABS, SQRT
+String functions: UPPER, LOWER, SUBSTR, CONCAT, LENGTH
+Date functions: TO_DATE, DATE_TRUNC, EXTRACT, DATEDIFF
+Conditional logic: CASE WHEN, COALESCE, NULLIF
+Type casting: ::
+Testing Criteria: Having at least one input value in the column or columns used in the operation to test operation logic
+
+4. Joins
+All join types: INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN
+Testing Criteria: Having records from multiple input tables to test join logic
+
+The tool expects dbt unit tests in YAML files following this format:
+unit_tests:
+  - name: test_name
+    model: model_name
+    given:
+      - input: ref('input_model')
+        rows:
+          - {col1: value1, col2: value2}
+          - {col1: value3, col2: value4}  # Multiple rows for aggregation testing
+    expect:
+      rows:
+        - {result_col: expected_value}
+This format follows the dbt official documentation for unit testing: https://docs.getdbt.com/docs/build/unit-tests.
+
+The report should shows coverage in the format: tested/total for each dimension.
+Example output:
+Model                                    Columns.    Aggregations    Operations      Joins          
+-------------------------------------------------------------------------------------
+intermediate__int_weight_measurements...    3/3           1/1             1/1             1/1            
+marts__body_mass_indexes                    3/3           0/0             0/4             0/0            
+staging__stg_gym_app__height                4/4           0/0             0/3             0/0            
+staging__stg_gym_app__weight                4/4           0/0             0/3             0/0            
+-------------------------------------------------------------------------------------
+TOTAL                                       14/14          1/1             1/11            1/1            
+COVERAGE %                                  100.0        100.0           9.1             100.0          
+
+I want you to build a python script in the scripts folder that generates this report in the terminal. 
